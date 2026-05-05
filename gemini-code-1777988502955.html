@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JULIEN JEGU // NIGHT CITY PROTOCOL</title>
+    <!-- POLICES CYBERPUNK -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+    
+    <style>
+        /* --- VARIABLES & BASE --- */
+        :root {
+            --cyan: #00e5ff;
+            --magenta: #ff003c;
+            --yellow: #ffe135;
+            --green: #00ff88;
+            --bg: #000913;
+            --card: rgba(0, 15, 40, 0.45);
+            --border: rgba(0, 229, 255, 0.3);
+            --txt: #b8deff;
+            --orb: 'Orbitron', sans-serif;
+            --mono: 'Share Tech Mono', monospace;
+            --body: 'Rajdhani', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--body); 
+            background: var(--bg); 
+            color: var(--txt); 
+            overflow-x: hidden; 
+            line-height: 1.6;
+        }
+
+        /* --- EFFETS VISUELS --- */
+        .crt-overlay {
+            position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            animation: flicker 0.15s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.9; } 50% { opacity: 0.8; } 100% { opacity: 0.9; }
+        }
+
+        .glass-panel {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+        .glass-panel:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+
+        /* --- BOOT SCREEN --- */
+        #boot-screen {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+        .btn-enter {
+            font-family: var(--orb); padding: 15px 30px; 
+            background: transparent; color: var(--cyan);
+            border: 2px solid var(--cyan); cursor: pointer; font-size: 1.2rem;
+        }
+
+        /* --- SECTIONS (Résumé de ton style original) --- */
+        section { padding: 80px 10%; min-height: 60vh; }
+        .wrap { max-width: 1200px; margin: 0 auto; }
+        h1, h2 { font-family: var(--orb); text-transform: uppercase; margin-bottom: 20px; }
+        .hero-name { font-size: clamp(3rem, 8vw, 6rem); color: var(--cyan); }
+        .btn-c { background: var(--cyan); color: #000; padding: 10px 25px; text-decoration: none; font-weight: bold; display: inline-block; }
+
+        /* --- HUD AUDIO --- */
+        #hud-audio {
+            position: fixed; bottom: 20px; left: 20px; z-index: 9000;
+            background: rgba(0,0,0,0.7); padding: 10px; border: 1px solid var(--cyan);
+            display: flex; align-items: center; gap: 10px; font-family: var(--mono);
+        }
+
+        /* --- VIDEO --- */
+        .video-container { max-width: 800px; margin: 40px auto; border: 2px solid var(--magenta); }
+        video { width: 100%; display: block; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<div class="crt-overlay"></div>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+    <button class="btn-enter" onclick="initializeSystem()">INITIALIZE_SYSTEM.EXE</button>
+</div>
+
+<!-- HUD AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="musique.mp3" type="audio/mpeg">
+</audio>
+<div id="hud-audio">
+    <button id="muteBtn" style="background:none; border:none; color:var(--cyan); cursor:pointer;">🔊 ON</button>
+</div>
+
+<!-- HERO SECTION -->
+<section id="hero">
+    <div class="wrap glass-panel reveal">
+        <p style="color:var(--magenta); font-family:var(--mono);">// CONNECTION ESTABLISHED</p>
+        <h1 class="hero-name">JULIEN JEGU</h1>
+        <p class="hero-role">BTS SIO — OPTION SISR // ÉCOLE PRATIQUE</p>
+        <div style="margin-top: 30px;">
+            <a href="#projects" class="btn-c">VOIR LES PROJETS</a>
+        </div>
+    </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section id="media">
+    <div class="wrap">
+        <h2 style="color:var(--magenta);">ARCHIVES_MEDIA</h2>
+        <div class="video-container glass-panel reveal">
+            <video controls>
+                <source src="Cyberpunk Edgerunners — Générique de fin Let You Down (Full Version) par Dawid Podsiadło.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</section>
+
+<!-- REMEMBER SECTION -->
+<section style="text-align:center;">
+    <button id="rememberBtn" class="btn-enter" style="color:var(--magenta); border-color:var(--magenta);">REMEMBER</button>
+</section>
+
+<script>
+    const music = document.getElementById('bgMusic');
+    const boot = document.getElementById('boot-screen');
+
+    // Initialisation
+    function initializeSystem() {
+        boot.style.opacity = '0';
+        setTimeout(() => boot.style.display = 'none', 800);
+        music.volume = 0.3;
+        music.play().catch(e => console.log("Audio en attente..."));
+    }
+
+    // Gestion du Mute
+    document.getElementById('muteBtn').addEventListener('click', function() {
+        if (music.paused) {
+            music.play();
+            this.innerText = "🔊 ON";
+        } else {
+            music.pause();
+            this.innerText = "🔇 OFF";
+        }
+    });
+
+    // Reveal au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('in');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Effet Remember
+    document.getElementById('rememberBtn').addEventListener('click', () => {
+        document.body.style.filter = "invert(1) hue-rotate(180deg)";
+        setTimeout(() => {
+            document.body.style.filter = "none";
+        }, 1000);
+    });
+</script>
+
+</body>
+</html>
