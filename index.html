@@ -3,63 +3,143 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JULIEN JEGU // PORTFOLIO</title>
+    <title>JULIEN JEGU // ENCRYPTED_DATA</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            --cyan: #00e5ff; --magenta: #ff003c; --bg: #000913; --card: rgba(0, 15, 40, 0.6);
+            --cyan: #00e5ff; --magenta: #ff003c; --yellow: #ffe135; --bg: #00050a;
             --orb: 'Orbitron', sans-serif; --mono: 'Share Tech Mono', monospace;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: #b8deff; overflow-x: hidden; }
-        nav { background: rgba(0, 5, 15, 0.9); border-bottom: 2px solid var(--cyan); padding: 15px 5%; position: fixed; width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between; }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { color: var(--cyan); text-decoration: none; font-family: var(--mono); text-transform: uppercase; }
-        .wrap { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
-        .glass-panel { background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(0, 229, 255, 0.3); padding: 40px; position: relative; border-left: 4px solid var(--cyan); }
-        h1 { font-family: var(--orb); font-size: clamp(2rem, 8vw, 4rem); color: #fff; text-shadow: 3px 3px var(--magenta); }
-        .sec-title { font-family: var(--orb); color: var(--magenta); border-left: 5px solid var(--magenta); padding-left: 15px; margin: 40px 0 20px; }
-        .video-container { border: 2px solid var(--magenta); background: #000; padding: 5px; }
-        video { width: 100%; aspect-ratio: 16/9; display: block; }
-        #boot-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.5s; }
+
+        /* MENU */
+        nav { background: rgba(0, 8, 15, 0.95); border-bottom: 2px solid var(--cyan); padding: 0 5%; position: fixed; width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .logo { font-family: var(--orb); font-weight: 900; color: var(--magenta); font-size: 1.2rem; }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links a { padding: 0 15px; color: var(--cyan); text-decoration: none; font-family: var(--mono); text-transform: uppercase; font-size: 0.8rem; }
+
+        /* LAYOUT */
+        .wrap { max-width: 900px; margin: 0 auto; padding: 100px 20px; }
+        .glass-panel { background: rgba(0, 15, 30, 0.8); border: 1px solid rgba(0, 229, 255, 0.2); padding: 30px; margin-bottom: 30px; border-left: 4px solid var(--cyan); }
+        
+        /* TERMINAL DE SÉCURITÉ */
+        .security-box { border: 2px solid var(--magenta); background: rgba(20, 0, 0, 0.6); padding: 30px; text-align: center; }
+        .security-box h2 { font-family: var(--orb); color: var(--magenta); margin-bottom: 20px; font-size: 1.2rem; }
+        input[type="password"] { 
+            background: #000; border: 1px solid var(--cyan); color: var(--cyan); 
+            padding: 10px; font-family: var(--mono); width: 200px; text-align: center; margin-bottom: 15px;
+            outline: none; box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+        .btn-unlock { background: var(--magenta); color: #fff; border: none; padding: 10px 25px; font-family: var(--orb); cursor: pointer; transition: 0.3s; }
+        .btn-unlock:hover { box-shadow: 0 0 15px var(--magenta); transform: scale(1.05); }
+
+        /* ZONE VIDÉO (Cachée par défaut) */
+        #video-vault { display: none; margin-top: 30px; animation: glitch 0.3s ease; }
+        .video-wrapper { border: 1px solid var(--cyan); padding: 5px; background: #000; }
+        video { width: 100%; display: block; }
+
+        @keyframes glitch {
+            0% { opacity: 0; transform: skewX(10deg); }
+            50% { opacity: 0.5; transform: skewX(-10deg); }
+            100% { opacity: 1; transform: skewX(0); }
+        }
+
+        /* BOOT SCREEN */
+        #boot-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         .btn-init { background: none; border: 2px solid var(--cyan); color: var(--cyan); padding: 20px 40px; font-family: var(--orb); cursor: pointer; }
-        #hud-audio { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(0,0,0,0.8); border: 1px solid var(--cyan); padding: 10px; }
+
+        #hud-audio { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: #000; border: 1px solid var(--cyan); padding: 10px; color: var(--cyan); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; }
     </style>
 </head>
 <body>
+
     <div id="boot-screen">
-        <button class="btn-init" onclick="startSystem()">INITIALIZE_CONNECTION</button>
+        <button class="btn-init" onclick="startSystem()">CONNECT_NEURAL_LINK</button>
     </div>
+
     <nav>
-        <div style="font-family: var(--orb); color: var(--magenta);">JJ // 2026</div>
+        <div class="logo">JULIEN_JEGU</div>
         <ul class="nav-links">
             <li><a href="#hero">Profil</a></li>
-            <li><a href="#skills">Compétences</a></li>
-            <li><a href="#media">Archives</a></li>
+            <li><a href="#secure">Encrypt_Data</a></li>
         </ul>
     </nav>
+
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
-    <section id="hero" class="wrap">
-        <div class="glass-panel">
-            <h1 class="hero-name">JULIEN JEGU</h1>
-            <p style="color:var(--magenta); font-family: var(--mono); font-weight: bold;">BTS SIO OPTION SISR // ÉCOLE PRATIQUE</p>
-            <p style="margin-top:20px;">Futur expert en cybersécurité et réseaux. Connexion établie avec le portfolio v2.0.</p>
-        </div>
-    </section>
-    <section id="media" class="wrap">
-        <h2 class="sec-title">ARCHIVES_MÉDIAS</h2>
-        <div class="video-container">
-            <video controls><source src="video.mp4" type="video/mp4"></video>
-        </div>
-    </section>
-    <div id="hud-audio"><button onclick="toggleMusic()" style="background:none; border:none; color:var(--cyan); cursor:pointer; font-family:var(--mono);">[ 🔊 AUDIO ]</button></div>
+
+    <div class="wrap">
+        <section id="hero">
+            <div class="glass-panel">
+                <h1 style="font-family:var(--orb); color:#fff; text-shadow: 2px 2px var(--magenta);">JULIEN JEGU</h1>
+                <p style="color:var(--cyan); font-family:var(--mono);">// BTS SIO SISR // ALTERNANT</p>
+                <p style="margin-top:15px;">Accès sécurisé au portfolio. Les données sensibles sont verrouillées par un protocole de cryptage mémoriel.</p>
+            </div>
+        </section>
+
+        <!-- SECTION SÉCURISÉE -->
+        <section id="secure">
+            <div class="security-box">
+                <h2>[ RESTRICTED_AREA ]</h2>
+                <p style="font-family:var(--mono); font-size: 0.8rem; margin-bottom: 15px; color: var(--cyan);">ENTREZ LE CODE D'ACCÈS POUR LIRE LES ARCHIVES</p>
+                
+                <input type="password" id="passCode" placeholder="********">
+                <br>
+                <button class="btn-unlock" onclick="checkCode()">DECRYPT_DATA</button>
+                
+                <p id="error-msg" style="color:var(--magenta); font-family:var(--mono); margin-top:10px; display:none;">ACCESS_DENIED: WRONG_CODE</p>
+            </div>
+
+            <!-- CONTENU CACHÉ -->
+            <div id="video-vault">
+                <h3 style="font-family:var(--orb); color:var(--yellow); margin-bottom:10px;">> FICHIER_DÉCRYPTÉ : ARCHIVE_V01</h3>
+                <div class="video-wrapper">
+                    <video id="myVideo" controls>
+                        <source src="video.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="hud-audio" onclick="toggleMusic()">[ 🔊 AUDIO_ON ]</div>
+
     <script>
         const music = document.getElementById('bgMusic');
+        const video = document.getElementById('myVideo');
+
+        // --- CONFIGURATION DU MOT DE PASSE ---
+        const SECRET_CODE = "2077"; // <--- CHANGE LE CODE ICI 
+        // -------------------------------------
+
         function startSystem() {
             document.getElementById('boot-screen').style.opacity = '0';
-            setTimeout(() => { document.getElementById('boot-screen').style.display = 'none'; music.volume = 0.2; music.play(); }, 500);
+            setTimeout(() => {
+                document.getElementById('boot-screen').style.display = 'none';
+                music.volume = 0.3;
+                music.play().catch(e => console.log("Audio bloqué"));
+            }, 500);
         }
-        function toggleMusic() { if (music.paused) music.play(); else music.pause(); }
+
+        function checkCode() {
+            const input = document.getElementById('passCode').value;
+            const vault = document.getElementById('video-vault');
+            const error = document.getElementById('error-msg');
+
+            if(input === SECRET_CODE) {
+                vault.style.display = 'block';
+                error.style.display = 'none';
+                document.querySelector('.security-box').style.borderColor = 'var(--cyan)';
+                video.play(); // La vidéo se lance automatiquement au déverrouillage
+            } else {
+                error.style.display = 'block';
+                vault.style.display = 'none';
+            }
+        }
+
+        function toggleMusic() {
+            if (music.paused) { music.play(); } else { music.pause(); }
+        }
     </script>
 </body>
 </html>
