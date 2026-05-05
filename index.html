@@ -1,300 +1,106 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JULIEN JEGU // NEURAL_INTERFACE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
-    <style>
-        :root {
-            --cyan: #00e5ff;
-            --magenta: #ff003c;
-            --yellow: #ffe135;
-            --bg: #010a13;
-            --orb: 'Orbitron', sans-serif;
-            --mono: 'Share Tech Mono', monospace;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            cursor: crosshair;
-        }
-
-        body {
-            background: var(--bg);
-            color: #b8deff;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* ─── EFFET SCANLINE ─── */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background:
-                linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.15) 50%),
-                linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        /* ─── BOOT SCREEN ─── */
-        #boot-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* FIX : transition CSS ajoutée pour que le fade fonctionne */
-            transition: opacity 0.6s ease;
-        }
-
-        .loading-text {
-            font-family: var(--mono);
-            color: var(--cyan);
-            margin-bottom: 20px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* ─── MENU CYBER ─── */
-        nav {
-            height: 60px;
-            background: rgba(0, 10, 20, 0.9);
-            border-bottom: 2px solid var(--cyan);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 500;
-        }
-
-        .logo {
-            font-family: var(--orb);
-            font-weight: 900;
-            color: var(--magenta);
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--magenta);
-        }
-
-        .nav-links a {
-            color: var(--cyan);
-            text-decoration: none;
-            font-family: var(--mono);
-            font-size: 0.8rem;
-            margin-left: 20px;
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-            text-shadow: 0 0 8px var(--cyan);
-        }
-
-        /* ─── CONTENU ─── */
-        .wrap {
-            max-width: 900px;
-            margin: 100px auto;
-            padding: 20px;
-        }
-
-        .glass-panel {
-            background: rgba(0, 20, 40, 0.6);
-            border: 1px solid var(--cyan);
-            padding: 30px;
-            position: relative;
-            /* FIX : clip-path assoupli pour éviter de couper le contenu sur mobile */
-            clip-path: polygon(0 0, 100% 0, 100% 94%, 97% 100%, 0 100%);
-            box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.1);
-            margin-bottom: 40px;
-        }
-
-        /* ─── TERMINAL DE SÉCURITÉ ─── */
-        .security-box {
-            border: 2px solid var(--magenta);
-            background: rgba(30, 0, 5, 0.4);
-            padding: 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        input[type="password"] {
-            background: #000;
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            padding: 12px;
-            font-family: var(--mono);
-            text-align: center;
-            width: 250px;
-            margin: 20px 0;
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-        }
-
-        .btn-decrypt {
-            background: var(--magenta);
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            font-family: var(--orb);
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-decrypt:hover {
-            box-shadow: 0 0 20px var(--magenta);
-            transform: translateY(-2px);
-        }
-
-        /* ─── LECTEUR VIDÉO ─── */
-        #video-vault {
-            display: none;
-            border: 1px solid var(--yellow);
-            padding: 10px;
-            background: #000;
-            margin-top: 30px;
-        }
-
-        video {
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
+    <title>JULIEN JEGU // NEURAL_INTERFACE v2.0</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-    <!-- ─── BOOT SCREEN ─── -->
+    <!-- ═══════════════════════════════════════════
+         CURSEUR PERSONNALISÉ
+    ═══════════════════════════════════════════ -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- ═══════════════════════════════════════════
+         BOOT / LOADER
+    ═══════════════════════════════════════════ -->
     <div id="boot-screen">
-        <div class="loading-text">>> INITIALIZING_NEURAL_LINK...</div>
-        <button class="btn-decrypt" onclick="startSystem()" style="background:none; border:2px solid var(--cyan); color:var(--cyan);">
-            [ ACCESS_CORE ]
-        </button>
+        <div class="boot-content">
+            <div class="boot-logo glitch" data-text="JULIEN_JEGU">JULIEN_JEGU</div>
+            <div class="boot-subtitle">NEURAL_INTERFACE v2.0</div>
+            <div class="boot-bar-wrap">
+                <div class="boot-bar" id="bootBar"></div>
+            </div>
+            <div class="boot-log" id="bootLog"></div>
+            <button class="btn-primary" id="bootBtn" style="display:none;" onclick="launchSystem()">
+                <span>[ INITIALISER_CONNEXION ]</span>
+            </button>
+        </div>
     </div>
 
-    <!-- ─── NAVIGATION ─── -->
-    <nav>
-        <div class="logo">JULIEN_JEGU</div>
-        <div class="nav-links">
-            <a href="#hero">// PROFIL</a>
-            <a href="#secure">// ENCRYPT_DATA</a>
+    <!-- ═══════════════════════════════════════════
+         SCANLINES OVERLAY
+    ═══════════════════════════════════════════ -->
+    <div id="scanlines"></div>
+
+    <!-- ═══════════════════════════════════════════
+         NAVIGATION
+    ═══════════════════════════════════════════ -->
+    <nav id="navbar">
+        <div class="nav-logo glitch" data-text="JJ">JJ</div>
+        <ul class="nav-links">
+            <li><a href="#hero" class="nav-link" data-section="hero">PROFIL</a></li>
+            <li><a href="#skills" class="nav-link" data-section="skills">COMPÉTENCES</a></li>
+            <li><a href="#experience" class="nav-link" data-section="experience">EXPÉRIENCE</a></li>
+            <li><a href="#projects" class="nav-link" data-section="projects">PROJETS</a></li>
+            <li><a href="#secure" class="nav-link" data-section="secure">VAULT</a></li>
+            <li><a href="#contact" class="nav-link" data-section="contact">CONTACT</a></li>
+        </ul>
+        <div class="nav-controls">
+            <!-- Bouton thème -->
+            <button id="themeToggle" class="icon-btn" title="Changer le thème">
+                <svg id="iconTheme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </button>
+            <!-- Bouton audio -->
+            <button id="audioToggle" class="icon-btn" title="Musique">
+                <svg id="iconAudio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+            </button>
+            <div class="nav-hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     </nav>
 
-    <!-- FIX : nom du fichier audio vérifié et unifié → music.mp3 (à adapter si besoin) -->
+    <!-- Menu mobile -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#hero" onclick="closeMobile()">PROFIL</a>
+        <a href="#skills" onclick="closeMobile()">COMPÉTENCES</a>
+        <a href="#experience" onclick="closeMobile()">EXPÉRIENCE</a>
+        <a href="#projects" onclick="closeMobile()">PROJETS</a>
+        <a href="#secure" onclick="closeMobile()">VAULT</a>
+        <a href="#contact" onclick="closeMobile()">CONTACT</a>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         AUDIO
+    ═══════════════════════════════════════════ -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- ─── CONTENU PRINCIPAL ─── -->
-    <div class="wrap">
+    <!-- ═══════════════════════════════════════════
+         CONTENU PRINCIPAL
+    ═══════════════════════════════════════════ -->
+    <main>
 
-        <section id="hero">
-            <div class="glass-panel">
-                <h1 style="font-family:var(--orb); font-size:3rem; text-shadow:3px 3px var(--magenta);">
-                    JULIEN JEGU
-                </h1>
-                <p style="color:var(--cyan); font-family:var(--mono); font-weight:bold;">
-                    BTS SIO SISR // ALTERNANT
-                </p>
-                <p style="margin-top:20px; border-left:2px solid var(--magenta); padding-left:15px;">
-                    Systèmes, Réseaux et Cybersécurité. Accès restreint aux données de niveau 2.
-                </p>
-            </div>
-        </section>
-
-        <section id="secure">
-            <div class="security-box">
-                <div style="color:var(--magenta); font-family:var(--orb); font-size:1.2rem;">
-                    [ SECURITY_OVERRIDE ]
-                </div>
-                <input
-                    type="password"
-                    id="passCode"
-                    placeholder="CODE"
-                    autocomplete="off"
-                />
-                <br>
-                <button class="btn-decrypt" onclick="checkCode()">DECRYPT_FILE</button>
-                <p id="err" style="color:var(--magenta); font-family:var(--mono); margin-top:15px; display:none;">
-                    !! ACCESS_DENIED !!
-                </p>
-            </div>
-
-            <div id="video-vault">
-                <div style="color:var(--yellow); font-family:var(--mono); margin-bottom:10px;">
-                    > DECRYPTED_STREAM_V.01
-                </div>
-                <video id="myVideo" controls preload="auto">
-                    <source src="video.mp4" type="video/mp4">
-                </video>
-            </div>
-        </section>
-
-    </div>
-
-    <script>
-        const music = document.getElementById('bgMusic');
-        const video = document.getElementById('myVideo');
-
-        // ─── MOT DE PASSE ───
-        const CODE = "2025";
-
-        // ─── BOOT : fade out + lancement musique ───
-        function startSystem() {
-            const boot = document.getElementById('boot-screen');
-            boot.style.opacity = '0'; // FIX : fonctionne grâce à la transition CSS ajoutée
-
-            setTimeout(() => {
-                boot.style.display = 'none';
-                music.volume = 0.2;
-                music.play().catch(() => {
-                    // L'autoplay est bloqué par le navigateur sans interaction — comportement normal
-                    console.log("Audio en attente d'une interaction utilisateur.");
-                });
-            }, 600);
-        }
-
-        // ─── VÉRIFICATION DU CODE ───
-        function checkCode() {
-            const val = document.getElementById('passCode').value;
-            const vault = document.getElementById('video-vault');
-            const err   = document.getElementById('err');
-
-            if (val === CODE) {
-                err.style.display = 'none';
-                vault.style.display = 'block';
-
-                // FIX : video.load() est asynchrone ; on attend 'canplay' avant d'appeler play()
-                video.load();
-                video.addEventListener('canplay', () => {
-                    video.play();
-                }, { once: true }); // { once: true } = l'écouteur se supprime automatiquement après 1 appel
-
-            } else {
-                err.style.display = 'block';
-            }
-        }
-
-        // FIX : validation du mot de passe avec la touche Entrée
-        document.getElementById('passCode').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') checkCode();
-        });
-    </script>
-
-</body>
-</html>
+        <!-- ── HERO ── -->
+        <section id="hero" class="section">
+            <div class="hero-bg-grid"></div>
+            <div class="hero-particles" id="heroParticles"></div>
+            <div class="container hero-content">
+                <div class="hero-tag fade-in">>> PROFIL_SYSTÈME &lt;v2.0&gt;</div>
+                <h1 class="hero-name gl
