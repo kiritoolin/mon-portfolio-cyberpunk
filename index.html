@@ -5,16 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JULIEN JEGU // CYBER PORTFOLIO</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <style>
+:root{
+--bg:#050510;
+--cyan:#00f7ff;
+--pink:#ff00ff;
+--glass:rgba(255,255,255,0.05);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
 body{
-margin:0;
-background:#050510;
+font-family:'Rajdhani',sans-serif;
+background:var(--bg);
 color:white;
-font-family:'Share Tech Mono';
 overflow-x:hidden;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+font-family:'Orbitron';
 }
 
 /* NAV */
@@ -25,24 +45,24 @@ width:100%;
 display:flex;
 justify-content:space-between;
 padding:20px;
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.6);
 backdrop-filter:blur(10px);
 z-index:1000;
 }
 
 .logo{
 font-family:'Orbitron';
-color:#ff00ff;
+color:var(--pink);
 }
 
-ul{
+nav ul{
 display:flex;
 gap:20px;
 list-style:none;
 }
 
-a{
-color:#00ffff;
+nav a{
+color:var(--cyan);
 text-decoration:none;
 }
 
@@ -53,80 +73,94 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+padding:80px 20px;
 text-align:center;
-padding:20px;
 }
 
-h1{
+/* HERO */
+.hero h1{
 font-size:4rem;
-text-shadow:0 0 20px #ff00ff;
+text-shadow:0 0 20px var(--pink);
 }
 
-.card,.project{
+.glow{
+text-shadow:0 0 10px var(--cyan),0 0 30px var(--cyan);
+}
+
+/* CARDS */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+width:100%;
+max-width:1000px;
+}
+
+.card{
+background:var(--glass);
+border:1px solid var(--cyan);
 padding:20px;
-border:1px solid cyan;
-margin:10px;
 transition:0.3s;
+backdrop-filter:blur(10px);
 }
 
-.card:hover,.project:hover{
-transform:scale(1.1);
-box-shadow:0 0 20px cyan;
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 20px var(--cyan);
 }
 
-/* LOADER */
-#loader{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
+/* TIMELINE */
+.timeline{
+max-width:800px;
+border-left:2px solid var(--cyan);
+padding-left:20px;
+}
+
+.timeline div{
+margin-bottom:20px;
 }
 
 /* CURSOR */
 #cursor{
-width:20px;
-height:20px;
-border:2px solid cyan;
-position:fixed;
+width:15px;
+height:15px;
+border:2px solid var(--cyan);
 border-radius:50%;
+position:fixed;
 pointer-events:none;
+z-index:2000;
 }
 
-/* AUDIO BTN */
-#audioControl{
+/* AUDIO */
+#audio{
 position:fixed;
 bottom:20px;
 right:20px;
 cursor:pointer;
-font-size:20px;
 }
 
-/* BUTTON */
-button{
-padding:15px 30px;
-background:none;
-border:2px solid cyan;
-color:cyan;
-cursor:pointer;
-margin-top:20px;
+/* PARTICLES */
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
-button:hover{
-background:cyan;
-color:black;
+
+/* RESPONSIVE */
+@media(max-width:600px){
+.hero h1{font-size:2.5rem;}
 }
 </style>
-
 </head>
+
 <body>
 
-<div id="loader">
-<h1>INITIALIZING SYSTEM...</h1>
-</div>
+<canvas id="bg"></canvas>
 
-<audio id="bgMusic" loop>
+<div id="loader">BOOTING SYSTEM...</div>
+
+<audio id="music" loop>
 <source src="musique.mp3" type="audio/mpeg">
 </audio>
 
@@ -134,6 +168,7 @@ color:black;
 <div class="logo">JJ.EXE</div>
 <ul>
 <li><a href="#hero">Profil</a></li>
+<li><a href="#exp">Exp</a></li>
 <li><a href="#skills">Skills</a></li>
 <li><a href="#projects">Projets</a></li>
 <li><a href="#contact">Contact</a></li>
@@ -142,23 +177,35 @@ color:black;
 
 <div id="cursor"></div>
 
-<section id="hero">
-<h1>JULIEN JEGU</h1>
-<p>BTS SIO SISR // CYBER SECURITY</p>
-<button id="startBtn">ENTER SYSTEM</button>
+<section id="hero" class="hero">
+<h1 class="glow">JULIEN JEGU</h1>
+<p>BTS SIO SISR // CYBERSECURITY</p>
+<button id="start">ENTER SYSTEM</button>
+</section>
+
+<section id="exp">
+<h2>EXPÉRIENCE</h2>
+<div class="timeline">
+<div><strong>2026</strong> - Alternance IT (Entreprise)</div>
+<div><strong>2025</strong> - Projets réseau et cybersécurité</div>
+</div>
 </section>
 
 <section id="skills">
 <h2>COMPÉTENCES</h2>
-<div class="card">RÉSEAUX</div>
-<div class="card">CYBERSÉCURITÉ</div>
-<div class="card">DEV</div>
+<div class="grid">
+<div class="card">Réseaux (Cisco, VLAN)</div>
+<div class="card">Cybersécurité</div>
+<div class="card">Dev (HTML/CSS/JS)</div>
+</div>
 </section>
 
 <section id="projects">
 <h2>PROJETS</h2>
-<div class="project">PROJECT PEGASE</div>
-<div class="project">NEURAL INTERFACE</div>
+<div class="grid">
+<div class="card">PROJECT PEGASE</div>
+<div class="card">PORTFOLIO CYBER</div>
+</div>
 </section>
 
 <section id="contact">
@@ -166,41 +213,63 @@ color:black;
 <p>julienjegu13@gmail.com</p>
 </section>
 
-<div id="audioControl">🔊</div>
+<div id="audio">🔊</div>
 
 <script>
 const loader=document.getElementById("loader");
-const cursor=document.getElementById("cursor");
-const music=document.getElementById("bgMusic");
-const audioBtn=document.getElementById("audioControl");
-const startBtn=document.getElementById("startBtn");
+const music=document.getElementById("music");
+const audio=document.getElementById("audio");
+const start=document.getElementById("start");
 
-window.addEventListener("load",()=>{
-setTimeout(()=>{loader.style.display="none"},1500);
-});
+/* loader */
+window.onload=()=>setTimeout(()=>loader.style.display="none",1500);
 
-startBtn.addEventListener("click",()=>{
+/* audio */
+start.onclick=()=>{
 music.volume=0.3;
 music.play();
-});
+};
 
-audioBtn.addEventListener("click",()=>{
-if(music.paused){
-music.play();
-audioBtn.textContent="🔊";
-}else{
-music.pause();
-audioBtn.textContent="🔇";
-}
-});
+audio.onclick=()=>{
+if(music.paused){music.play();audio.textContent="🔊";}
+else{music.pause();audio.textContent="🔇";}
+};
 
-document.addEventListener("mousemove",(e)=>{
+/* cursor */
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-gsap.from("h1",{opacity:0,y:-50,duration:1});
+/* GSAP */
+gsap.from(".hero h1",{y:-50,opacity:0,duration:1});
 gsap.from(".card",{opacity:0,y:50,stagger:0.2});
+
+/* PARTICLES */
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<80;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,dx:0.5,dy:0.5});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{
+p.x+=p.dx;
+p.y+=p.dy;
+if(p.x>canvas.width)p.x=0;
+if(p.y>canvas.height)p.y=0;
+ctx.fillStyle="cyan";
+ctx.fillRect(p.x,p.y,2,2);
+});
+requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
