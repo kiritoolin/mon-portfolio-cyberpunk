@@ -1,106 +1,207 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JULIEN JEGU // NEURAL_INTERFACE v2.0</title>
-    <link rel="stylesheet" href="style.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JULIEN JEGU // CYBER PORTFOLIO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<style>
+body{
+margin:0;
+background:#050510;
+color:white;
+font-family:'Share Tech Mono';
+overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:20px;
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+.logo{
+font-family:'Orbitron';
+color:#ff00ff;
+}
+
+ul{
+display:flex;
+gap:20px;
+list-style:none;
+}
+
+a{
+color:#00ffff;
+text-decoration:none;
+}
+
+/* SECTIONS */
+section{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+h1{
+font-size:4rem;
+text-shadow:0 0 20px #ff00ff;
+}
+
+.card,.project{
+padding:20px;
+border:1px solid cyan;
+margin:10px;
+transition:0.3s;
+}
+
+.card:hover,.project:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px cyan;
+}
+
+/* LOADER */
+#loader{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+/* CURSOR */
+#cursor{
+width:20px;
+height:20px;
+border:2px solid cyan;
+position:fixed;
+border-radius:50%;
+pointer-events:none;
+}
+
+/* AUDIO BTN */
+#audioControl{
+position:fixed;
+bottom:20px;
+right:20px;
+cursor:pointer;
+font-size:20px;
+}
+
+/* BUTTON */
+button{
+padding:15px 30px;
+background:none;
+border:2px solid cyan;
+color:cyan;
+cursor:pointer;
+margin-top:20px;
+}
+button:hover{
+background:cyan;
+color:black;
+}
+</style>
+
 </head>
 <body>
 
-    <!-- ═══════════════════════════════════════════
-         CURSEUR PERSONNALISÉ
-    ═══════════════════════════════════════════ -->
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
+<div id="loader">
+<h1>INITIALIZING SYSTEM...</h1>
+</div>
 
-    <!-- ═══════════════════════════════════════════
-         BOOT / LOADER
-    ═══════════════════════════════════════════ -->
-    <div id="boot-screen">
-        <div class="boot-content">
-            <div class="boot-logo glitch" data-text="JULIEN_JEGU">JULIEN_JEGU</div>
-            <div class="boot-subtitle">NEURAL_INTERFACE v2.0</div>
-            <div class="boot-bar-wrap">
-                <div class="boot-bar" id="bootBar"></div>
-            </div>
-            <div class="boot-log" id="bootLog"></div>
-            <button class="btn-primary" id="bootBtn" style="display:none;" onclick="launchSystem()">
-                <span>[ INITIALISER_CONNEXION ]</span>
-            </button>
-        </div>
-    </div>
+<audio id="bgMusic" loop>
+<source src="musique.mp3" type="audio/mpeg">
+</audio>
 
-    <!-- ═══════════════════════════════════════════
-         SCANLINES OVERLAY
-    ═══════════════════════════════════════════ -->
-    <div id="scanlines"></div>
+<nav>
+<div class="logo">JJ.EXE</div>
+<ul>
+<li><a href="#hero">Profil</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projets</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
 
-    <!-- ═══════════════════════════════════════════
-         NAVIGATION
-    ═══════════════════════════════════════════ -->
-    <nav id="navbar">
-        <div class="nav-logo glitch" data-text="JJ">JJ</div>
-        <ul class="nav-links">
-            <li><a href="#hero" class="nav-link" data-section="hero">PROFIL</a></li>
-            <li><a href="#skills" class="nav-link" data-section="skills">COMPÉTENCES</a></li>
-            <li><a href="#experience" class="nav-link" data-section="experience">EXPÉRIENCE</a></li>
-            <li><a href="#projects" class="nav-link" data-section="projects">PROJETS</a></li>
-            <li><a href="#secure" class="nav-link" data-section="secure">VAULT</a></li>
-            <li><a href="#contact" class="nav-link" data-section="contact">CONTACT</a></li>
-        </ul>
-        <div class="nav-controls">
-            <!-- Bouton thème -->
-            <button id="themeToggle" class="icon-btn" title="Changer le thème">
-                <svg id="iconTheme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>
-                    <line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>
-                    <line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                </svg>
-            </button>
-            <!-- Bouton audio -->
-            <button id="audioToggle" class="icon-btn" title="Musique">
-                <svg id="iconAudio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                </svg>
-            </button>
-            <div class="nav-hamburger" id="hamburger">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    </nav>
+<div id="cursor"></div>
 
-    <!-- Menu mobile -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#hero" onclick="closeMobile()">PROFIL</a>
-        <a href="#skills" onclick="closeMobile()">COMPÉTENCES</a>
-        <a href="#experience" onclick="closeMobile()">EXPÉRIENCE</a>
-        <a href="#projects" onclick="closeMobile()">PROJETS</a>
-        <a href="#secure" onclick="closeMobile()">VAULT</a>
-        <a href="#contact" onclick="closeMobile()">CONTACT</a>
-    </div>
+<section id="hero">
+<h1>JULIEN JEGU</h1>
+<p>BTS SIO SISR // CYBER SECURITY</p>
+<button id="startBtn">ENTER SYSTEM</button>
+</section>
 
-    <!-- ═══════════════════════════════════════════
-         AUDIO
-    ═══════════════════════════════════════════ -->
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+<section id="skills">
+<h2>COMPÉTENCES</h2>
+<div class="card">RÉSEAUX</div>
+<div class="card">CYBERSÉCURITÉ</div>
+<div class="card">DEV</div>
+</section>
 
-    <!-- ═══════════════════════════════════════════
-         CONTENU PRINCIPAL
-    ═══════════════════════════════════════════ -->
-    <main>
+<section id="projects">
+<h2>PROJETS</h2>
+<div class="project">PROJECT PEGASE</div>
+<div class="project">NEURAL INTERFACE</div>
+</section>
 
-        <!-- ── HERO ── -->
-        <section id="hero" class="section">
-            <div class="hero-bg-grid"></div>
-            <div class="hero-particles" id="heroParticles"></div>
-            <div class="container hero-content">
-                <div class="hero-tag fade-in">>> PROFIL_SYSTÈME &lt;v2.0&gt;</div>
-                <h1 class="hero-name gl
+<section id="contact">
+<h2>CONTACT</h2>
+<p>julienjegu13@gmail.com</p>
+</section>
+
+<div id="audioControl">🔊</div>
+
+<script>
+const loader=document.getElementById("loader");
+const cursor=document.getElementById("cursor");
+const music=document.getElementById("bgMusic");
+const audioBtn=document.getElementById("audioControl");
+const startBtn=document.getElementById("startBtn");
+
+window.addEventListener("load",()=>{
+setTimeout(()=>{loader.style.display="none"},1500);
+});
+
+startBtn.addEventListener("click",()=>{
+music.volume=0.3;
+music.play();
+});
+
+audioBtn.addEventListener("click",()=>{
+if(music.paused){
+music.play();
+audioBtn.textContent="🔊";
+}else{
+music.pause();
+audioBtn.textContent="🔇";
+}
+});
+
+document.addEventListener("mousemove",(e)=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+gsap.from("h1",{opacity:0,y:-50,duration:1});
+gsap.from(".card",{opacity:0,y:50,stagger:0.2});
+</script>
+
+</body>
+</html>
