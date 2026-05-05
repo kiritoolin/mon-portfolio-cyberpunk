@@ -3,168 +3,251 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JULIEN JEGU // NIGHT CITY PROTOCOL</title>
+    <title>JULIEN JEGU // PORTFOLIO</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
     
     <style>
         :root {
             --cyan: #00e5ff;
             --magenta: #ff003c;
+            --yellow: #ffe135;
             --bg: #000913;
-            --card: rgba(0, 15, 40, 0.45);
+            --card: rgba(0, 15, 40, 0.6);
             --border: rgba(0, 229, 255, 0.3);
             --txt: #b8deff;
             --orb: 'Orbitron', sans-serif;
             --mono: 'Share Tech Mono', monospace;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body { 
             font-family: 'Rajdhani', sans-serif; 
             background: var(--bg); 
             color: var(--txt); 
-            margin: 0; 
+            line-height: 1.6;
             overflow-x: hidden; 
         }
 
         /* --- NAVIGATION --- */
         nav {
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 1px solid var(--cyan);
-            padding: 1rem 5%;
-            position: sticky;
+            background: rgba(0, 5, 15, 0.95);
+            border-bottom: 2px solid var(--cyan);
+            padding: 15px 5%;
+            position: fixed;
+            width: 100%;
             top: 0;
             z-index: 1000;
-        }
-        .nav-links {
-            list-style: none;
             display: flex;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
+            justify-content: space-between;
+            align-items: center;
         }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
         .nav-links a {
             color: var(--cyan);
             text-decoration: none;
             font-family: var(--mono);
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
             transition: 0.3s;
         }
-        .nav-links a:hover {
-            color: var(--magenta);
-            text-shadow: 0 0 8px var(--magenta);
-        }
+        .nav-links a:hover { color: var(--magenta); text-shadow: 0 0 10px var(--magenta); }
 
-        /* --- CONTENEURS --- */
-        .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-        
+        /* --- LAYOUT --- */
+        .wrap { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
         .glass-panel {
             background: var(--card);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            padding: 30px;
-            margin-top: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-panel::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--cyan);
         }
 
         /* --- TYPOGRAPHIE --- */
-        h1, h2 { font-family: var(--orb); text-transform: uppercase; }
-        .hero-name { font-size: 3.5rem; color: #fff; text-shadow: 2px 2px var(--magenta); margin: 10px 0; }
-        .status-bar { font-family: var(--mono); font-size: 0.8rem; color: var(--cyan); }
-        .hero-role { font-family: var(--mono); color: var(--magenta); margin-bottom: 15px; }
+        h1, h2, h3 { font-family: var(--orb); text-transform: uppercase; margin-bottom: 20px; }
+        .hero-name { font-size: clamp(2rem, 8vw, 4rem); color: #fff; text-shadow: 3px 3px var(--magenta); }
+        .sec-title { color: var(--magenta); border-left: 5px solid var(--magenta); padding-left: 15px; margin-bottom: 40px; }
+        .status { font-family: var(--mono); color: var(--cyan); font-size: 0.9rem; margin-bottom: 10px; }
 
-        /* --- BOUTONS --- */
-        .btn-c { background: var(--cyan); color: #000; padding: 10px 20px; text-decoration: none; font-weight: bold; font-family: var(--mono); border-radius: 2px; margin-right: 10px; }
-        .btn-y { border: 1px solid var(--cyan); color: var(--cyan); padding: 9px 20px; text-decoration: none; font-family: var(--mono); }
+        /* --- SKILLS GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .skill-box { border: 1px dashed var(--cyan); padding: 20px; background: rgba(0, 229, 255, 0.05); }
+        .skill-box h3 { font-size: 1.1rem; color: var(--yellow); }
+        .skill-box ul { list-style: none; font-family: var(--mono); font-size: 0.9rem; }
+        .skill-box li::before { content: "> "; color: var(--cyan); }
 
         /* --- VIDEO --- */
-        .sec-title { color: #fff; border-left: 4px solid var(--magenta); padding-left: 15px; margin-top: 50px; }
-        .video-frame { 
-            position: relative; 
-            border: 1px solid var(--magenta); 
-            padding: 5px; 
-            background: #000;
-            margin-top: 20px;
+        .video-container { 
+            border: 2px solid var(--magenta); 
+            background: #000; 
+            position: relative;
+            padding: 5px;
         }
-        video { width: 100%; display: block; }
+        video { width: 100%; aspect-ratio: 16/9; display: block; }
 
-        /* --- HUD AUDIO (EN BAS) --- */
-        #hud-audio {
-            position: fixed; bottom: 20px; left: 20px; z-index: 1001;
-            background: rgba(0,0,0,0.9); border: 1px solid var(--cyan);
-            padding: 8px 15px; display: flex; align-items: center; gap: 10px;
-        }
-
-        /* --- BOOT SCREEN --- */
+        /* --- HUD & BOOT --- */
         #boot-screen {
             position: fixed; inset: 0; background: #000; z-index: 9999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .btn-init {
-            background: none; border: 1px solid var(--cyan); color: var(--cyan);
-            padding: 15px 30px; font-family: var(--orb); cursor: pointer;
+            background: none; border: 2px solid var(--cyan); color: var(--cyan);
+            padding: 20px 40px; font-family: var(--orb); cursor: pointer; font-size: 1.2rem;
+            transition: 0.3s;
         }
+        .btn-init:hover { background: var(--cyan); color: #000; box-shadow: 0 0 20px var(--cyan); }
+
+        #hud-audio {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1001;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--cyan); padding: 10px;
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- BOOT SCREEN -->
+    <!-- ÉCRAN DE DÉMARRAGE -->
     <div id="boot-screen">
-        <h2 style="color:var(--cyan); margin-bottom:20px;">SYSTEM OFFLINE</h2>
-        <button class="btn-init" onclick="startSystem()">CONNECT_NEURAL_LINK</button>
+        <div style="font-family: var(--mono); color: var(--cyan); margin-bottom: 20px;">[ SYSTEM_READY ]</div>
+        <button class="btn-init" onclick="startSystem()">INITIALIZE_CONNECTION</button>
     </div>
 
+    <!-- NAVIGATION -->
     <nav>
+        <div style="font-family: var(--orb); font-weight: 900; color: var(--magenta);">JJ // 2026</div>
         <ul class="nav-links">
             <li><a href="#hero">Profil</a></li>
-            <li><a href="#skills">Skills</a></li>
+            <li><a href="#skills">Compétences</a></li>
             <li><a href="#projects">Projets</a></li>
-            <li><a href="#media">Médias</a></li>
+            <li><a href="#media">Archives</a></li>
         </ul>
     </nav>
 
     <audio id="bgMusic" loop><source src="musique.mp3" type="audio/mpeg"></audio>
 
+    <!-- SECTION 1 : PROFIL -->
     <section id="hero" class="wrap">
-        <div class="glass-panel">
-            <div class="status-bar">NEURAL_LINK ACTIVE — ALTERNANCE SEP. 2025</div>
+        <div class="glass-panel reveal">
+            <div class="status">// IDENTITÉ DÉTECTÉE</div>
             <h1 class="hero-name">JULIEN JEGU</h1>
-            <p class="hero-role">BTS SIO — OPTION SISR // ÉCOLE PRATIQUE</p>
-            <p>Développeur en formation, passionné par l'informatique, les réseaux et les nouvelles technologies.</p>
-            <div style="margin-top:25px;">
-                <a href="#" class="btn-c">PROJETS.EXE ▶</a>
-                <a href="#" class="btn-y">NEURAL_LINK ⚡</a>
-            </div>
-            <div style="margin-top:20px; font-family:var(--mono); font-size:0.8rem; opacity:0.7;">
-                0// PROJETS | 2// CORPS | 2026// DIPLÔME
+            <p style="color:var(--magenta); font-family: var(--mono); font-weight: bold; margin-bottom: 20px;">
+                BTS SIO OPTION SISR // ÉCOLE PRATIQUE
+            </p>
+            <p>Expert en devenir dans le déploiement d'infrastructures réseaux et la cybersécurité. Actuellement en quête de nouveaux protocoles et de défis technologiques.</p>
+            <div style="margin-top: 30px;">
+                <a href="#projects" style="background: var(--cyan); color: #000; padding: 12px 25px; text-decoration: none; font-family: var(--mono); font-weight: bold; border-radius: 3px;">DÉCRYPTAGE_PROJETS</a>
             </div>
         </div>
     </section>
 
+    <!-- SECTION 2 : SKILLS -->
+    <section id="skills" class="wrap">
+        <h2 class="sec-title">CAPACITÉS_SYSTÈME</h2>
+        <div class="grid">
+            <div class="skill-box reveal">
+                <h3>RÉSEAUX & INFRA</h3>
+                <ul>
+                    <li>Cisco Packet Tracer</li>
+                    <li>Windows Server 2022</li>
+                    <li>Active Directory</li>
+                    <li>Virtualisation (VMware)</li>
+                </ul>
+            </div>
+            <div class="skill-box reveal">
+                <h3>CYBERSÉCURITÉ</h3>
+                <ul>
+                    <li>Analyse de vulnérabilités</li>
+                    <li>Gestion des pare-feux</li>
+                    <li>Protocoles sécurisés (SSH, VPN)</li>
+                </ul>
+            </div>
+            <div class="skill-box reveal">
+                <h3>DEV_LOGICIEL</h3>
+                <ul>
+                    <li>HTML5 / CSS3 / JS</li>
+                    <li>Python Automation</li>
+                    <li>Scripting Bash / PowerShell</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3 : PROJETS -->
+    <section id="projects" class="wrap">
+        <h2 class="sec-title">MISSIONS_ACCOMPLIES</h2>
+        <div class="glass-panel reveal" style="margin-bottom: 20px;">
+            <h3 style="color: var(--cyan);">[ PROJECT_PEGASE ]</h3>
+            <p>Refonte complète d'une infrastructure réseau pour une PME fictive. Segmentation VLAN et mise en place d'un serveur DHCP/DNS.</p>
+        </div>
+        <div class="glass-panel reveal">
+            <h3 style="color: var(--cyan);">[ NEURAL_INTERFACE ]</h3>
+            <p>Création d'un portfolio interactif avec intégration de flux médias cryptés (HTML/CSS/JS).</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4 : MEDIA -->
     <section id="media" class="wrap">
-        <h2 class="sec-title">ARCHIVES_VIDÉO</h2>
-        <p style="font-family:var(--mono); font-size:0.8rem; margin-top:5px;">// Lecture des flux mémoriels cryptés</p>
-        <div class="video-frame">
-            <div style="position:absolute; top:10px; right:15px; color:var(--magenta); font-family:var(--mono); font-size:0.7rem;">REC // 00:00:00:00</div>
+        <h2 class="sec-title">ARCHIVES_MÉDIAS</h2>
+        <div class="video-container reveal">
+            <div style="position: absolute; top: 10px; right: 15px; color: var(--magenta); font-family: var(--mono); font-size: 0.8rem; z-index: 10;">
+                LIVE_FEED // 4K_DECRYPTED
+            </div>
             <video controls>
-                <source src="Cyberpunk Edgerunners — Générique de fin Let You Down (Full Version) par Dawid Podsiadło.mp4" type="video/mp4">
+                <source src="video.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
             </video>
         </div>
     </section>
 
+    <!-- AUDIO HUD -->
     <div id="hud-audio">
-        <button onclick="toggleMusic()" style="background:none; border:none; color:var(--cyan); cursor:pointer; font-family:var(--mono);">🔊 AUDIO_ON</button>
+        <button onclick="toggleMusic()" id="musicBtn" style="background:none; border:none; color:var(--cyan); cursor:pointer; font-family:var(--mono); font-size: 0.8rem;">
+            [ 🔊 AUDIO_ON ]
+        </button>
     </div>
 
     <script>
         const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
         function startSystem() {
-            document.getElementById('boot-screen').style.display = 'none';
-            music.volume = 0.3;
-            music.play();
+            document.getElementById('boot-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('boot-screen').style.display = 'none';
+                music.volume = 0.2;
+                music.play().catch(e => console.log("Audio bloqué par le navigateur"));
+            }, 500);
         }
+
         function toggleMusic() {
-            if (music.paused) { music.play(); } else { music.pause(); }
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "[ 🔊 AUDIO_ON ]";
+            } else {
+                music.pause();
+                musicBtn.innerText = "[ 🔇 AUDIO_OFF ]";
+            }
         }
+
+        // Animation au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
+
 </body>
 </html>
